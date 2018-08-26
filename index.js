@@ -260,6 +260,7 @@ module.exports = {
     tp: tp,
     isLocal: isLocal,
     shuffle: shuffle,
+    isBuffer: isBuffer,
     trigraph: trigraph,
     lowercase: lowercase,
     isFreeMail: isFreeMail,
