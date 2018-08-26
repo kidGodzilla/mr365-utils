@@ -29,10 +29,17 @@ function adjustedTimeFromNow (minutes) {
     return (+ new Date((new Date()).getTime() + (minutes * 60000)));
 }
 
-// Express.js Middleware: determine if the app is being run locally
+// Determine if the app is being run locally
 function isLocal (request) {
     if (!request) return false;
     return request.headers.host.includes('localhost');
+}
+
+// Express.js Middleware: determine if the app is being run locally
+function expressIsLocal (req, res, next) {
+    req.isLocal = !!isLocal(req);
+    if (req.isLocal) debug = true;
+    next()
 }
 
 // Express.js Middleware: Add this to the default cors middleware to handle OPTIONS requests
@@ -258,6 +265,7 @@ module.exports = {
     corsOptions: corsOptions,
     generateKey: generateKey,
     coerceBoolean: coerceBoolean,
+    expressIsLocal: expressIsLocal,
     newConfigObject: newConfigObject,
     fixDisplayConfig: fixDisplayConfig,
     dateToMsISOString: dateToMsISOString,
