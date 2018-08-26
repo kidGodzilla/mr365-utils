@@ -1,0 +1,22 @@
+{
+  "name": "mr365-utils",
+  "version": "0.2.1",
+  "description": "A collection of reusable backend components for Meeting Room 365",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kidGodzilla/mr365-utils.git"
+  },
+  "author": "James Futhey <futhey@gmail.com> (http://jamesfuthey.com/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kidGodzilla/mr365-utils/issues"
+  },
+  "homepage": "https://github.com/kidGodzilla/mr365-utils#readme",
+  "dependencies": {
+    "freemail": "^1.5.0"
+  }
+}
