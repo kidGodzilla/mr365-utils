@@ -1,6 +1,6 @@
 {
   "name": "mr365-utils",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A collection of reusable backend components for Meeting Room 365",
   "main": "index.js",
   "scripts": {
@@ -18,5 +18,6 @@
   "homepage": "https://github.com/kidGodzilla/mr365-utils#readme",
   "dependencies": {
     "freemail": "^1.5.0"
-  }
+  },
+  "devDependencies": {}
 }
