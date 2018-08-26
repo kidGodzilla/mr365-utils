@@ -200,7 +200,7 @@ function isFreeMail (selector) {
     if (!selector.includes('@')) selector = 'foo@' + selector;
 
     if (freemail.isFree(selector) || freemail.isDisposable(selector)) {
-        console.log('Disposable email used', selector, td);
+        console.log('Disposable email used', selector);
         return true;
     }
 
@@ -262,6 +262,7 @@ module.exports = {
     shuffle: shuffle,
     trigraph: trigraph,
     lowercase: lowercase,
+    isFreeMail: isFreeMail,
     corsOptions: corsOptions,
     generateKey: generateKey,
     coerceBoolean: coerceBoolean,
