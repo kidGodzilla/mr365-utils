@@ -35,6 +35,12 @@ function isLocal (request) {
     return request.headers.host.includes('localhost');
 }
 
+// Determine if the app is in a staging environment
+function isStaging (request) {
+    if (!request) return false;
+    return request.headers.host.includes('staging');
+}
+
 // Express.js Middleware: determine if the app is being run locally
 function expressIsLocal (req, res, next) {
     req.isLocal = !!isLocal(req);
