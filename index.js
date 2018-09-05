@@ -85,6 +85,7 @@ function fixDisplayConfig (displayConfig) {
         if (displayConfig.hoursForward) displayConfig.hoursForward = parseInt(displayConfig.hoursForward);
         if (displayConfig.powershellConfigured) displayConfig.powershellConfigured = parseInt(displayConfig.powershellConfigured);
         if (displayConfig.timeOffset) displayConfig.timeOffset = parseInt(displayConfig.timeOffset);
+        if (displayConfig.checkInMinutes) displayConfig.checkInMinutes = parseInt(displayConfig.checkInMinutes);
 
         displayConfig.private = coerceBoolean(displayConfig.private);
         displayConfig.allowEndEarly = coerceBoolean(displayConfig.allowEndEarly);
@@ -96,6 +97,11 @@ function fixDisplayConfig (displayConfig) {
         displayConfig.roomfinder = coerceBoolean(displayConfig.roomfinder);
         displayConfig.isOnline = coerceBoolean(displayConfig.isOnline);
         displayConfig.hidden = coerceBoolean(displayConfig.hidden);
+        displayConfig.showdates = coerceBoolean(displayConfig.showdates);
+        displayConfig.allowExtendMeeting = coerceBoolean(displayConfig.allowExtendMeeting);
+        displayConfig.messageAdministrator = coerceBoolean(displayConfig.messageAdministrator);
+
+
     } catch(e){}
 
     return displayConfig;
