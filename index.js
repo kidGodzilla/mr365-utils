@@ -212,7 +212,7 @@ function isFreeMail (selector) {
     if (!selector.includes('@')) selector = 'foo@' + selector;
 
     if (freemail.isFree(selector) || freemail.isDisposable(selector)) {
-        console.log('Disposable email used', selector);
+        //console.log('Disposable email used', selector);
         return true;
     }
 
