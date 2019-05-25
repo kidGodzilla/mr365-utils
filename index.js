@@ -265,21 +265,98 @@ function generateKey (keyLength) {
     return key;
 }
 
+// Translate a truncated timestamp (int) to a timestamp (int)
+function truncToTS (i) {
+    return i * (5 * 60 * 1000) + 1454212801000;
+}
+
+// Translate a timestamp (int) to a truncated timestamp (int)
+function tsToTrunc (i) {
+    return Math.floor((i - 1454212801000) / (5 * 60 * 1000));
+}
+
+// Generate a random int <= 9999999999
+function rint (max) {
+    if (!max) max = 9999999999;
+    return Math.floor(Math.random() * Math.floor(max));
+}
+
+// Middleware to tally path request counts on a global
+function prcsMiddleware (req, res, next) {
+    var url = req.originalUrl ? req.originalUrl.split('?')[0] : '';
+    if (url.includes('/')) url = '/' + url.split('/')[1];
+    if (!global._prcs) global._prcs = {};
+
+    if (!global._prcs['_ts']) global._prcs['_ts'] = +new Date();
+    if (!global._prcs[url]) global._prcs[url] = 0;
+    global._prcs[url]++;
+    next();
+}
+
+// Middleware to return path request counts
+function pathRequestCounts (req, res) {
+    res.json(global._prcs || {});
+}
+
+// Middleware to allow lots of origins
+function allowAllOrigins (req, res, next) {
+    var origin = req.headers.origin;
+
+    // Allow a whitelisted set of origins
+    // var allowedOrigins = ['http://127.0.0.1:8020', 'http://localhost:8020', 'http://127.0.0.1:9000', 'http://localhost:9000'];
+    // if(allowedOrigins.indexOf(origin) > -1){
+    //     res.setHeader('Access-Control-Allow-Origin', origin);
+    // }
+
+    // Allow all origins, basically
+    if (origin) res.setHeader('Access-Control-Allow-Origin', origin);
+
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.header('Access-Control-Allow-Credentials', true);
+    next();
+}
+
+/**
+ * Transforms a string into a valid firebase key by stripping a subset of special characters, and replacing
+ * with underscores
+ */
+function firebaseSafeKey (str) {
+    if (!str || (typeof str !== 'string' && typeof str !== 'number')) return false;
+
+    return ('' + str).replace(/ |\/|\\|\.|\$|\&|\[|\]|\*|\#|\"|\'|\`|\,|\{|\}/g, '_').replace(/_{2,}/g, '_');
+}
+
+/**
+ * Transforms a string into a URL-safe string by replacing all non-ascii and special characters with underscores,
+ * leaving only letters and numbers
+ */
+function urlSafeString (str) {
+    if (!str || (typeof str !== 'string' && typeof str !== 'number')) return false;
+
+    return ('' + str).replace(/[^a-zA-Z0-9 ]/g, '_').replace(/_{2,}/g, '_');
+}
+
 
 // Exports
 module.exports = {
     s4: s4,
     tp: tp,
+    rint: rint,
     isLocal: isLocal,
     shuffle: shuffle,
     isBuffer: isBuffer,
     trigraph: trigraph,
     lowercase: lowercase,
+    tsToTrunc: tsToTrunc,
+    truncToTS: truncToTS,
     isFreeMail: isFreeMail,
     corsOptions: corsOptions,
     generateKey: generateKey,
+    urlSafeString: urlSafeString,
     coerceBoolean: coerceBoolean,
     expressIsLocal: expressIsLocal,
+    allowAllOrigins: allowAllOrigins,
+    firebaseSafeKey: firebaseSafeKey,
     newConfigObject: newConfigObject,
     fixDisplayConfig: fixDisplayConfig,
     dateToMsISOString: dateToMsISOString,
