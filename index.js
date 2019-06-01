@@ -64,6 +64,14 @@ function corsOptions (req, res, next) {
     }
 }
 
+// Some defaults
+function corsAndBodyParser (app) {
+    app.use(corsOptions);
+    app.use(require('cors')());
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: true }));
+}
+
 // Coerce a boolean or string version of a boolean to a boolean
 function coerceBoolean (ins) {
     if (typeof ins === 'boolean') return ins; // Just pass it back if it's already a BOOLEAN
