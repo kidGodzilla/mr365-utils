@@ -68,8 +68,8 @@ function corsOptions (req, res, next) {
 function corsAndBodyParser (app) {
     app.use(corsOptions);
     app.use(require('cors')());
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(require('body-parser').json({ limit: '5mb', extended: true }));
+    app.use(require('body-parser').urlencoded({ limit: '5mb', extended: true }));
 }
 
 // Coerce a boolean or string version of a boolean to a boolean
@@ -368,6 +368,7 @@ module.exports = {
     newConfigObject: newConfigObject,
     fixDisplayConfig: fixDisplayConfig,
     dateToMsISOString: dateToMsISOString,
+    corsAndBodyParser: corsAndBodyParser,
     adjustedTimeFromNow: adjustedTimeFromNow,
     generateFakeMeetingItem: generateFakeMeetingItem,
     generateDummyMeetingData: generateDummyMeetingData
