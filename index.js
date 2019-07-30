@@ -32,13 +32,21 @@ function adjustedTimeFromNow (minutes) {
 // Determine if the app is being run locally
 function isLocal (request) {
     if (!request) return false;
-    return request.headers.host.includes('localhost');
+    try {
+        return request.headers.host.includes('localhost');
+    } catch(e) {
+        return false;
+    }
 }
 
 // Determine if the app is in a staging environment
 function isStaging (request) {
     if (!request) return false;
-    return request.headers.host.includes('staging');
+    try {
+        return request.headers.host.includes('staging');
+    } catch(e) {
+        return false;
+    }
 }
 
 // Express.js Middleware: determine if the app is being run locally
