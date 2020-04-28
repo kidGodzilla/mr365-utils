@@ -102,20 +102,25 @@ function fixDisplayConfig (displayConfig) {
         if (displayConfig.powershellConfigured) displayConfig.powershellConfigured = parseInt(displayConfig.powershellConfigured);
         if (displayConfig.timeOffset) displayConfig.timeOffset = parseInt(displayConfig.timeOffset);
         if (displayConfig.checkInMinutes) displayConfig.checkInMinutes = parseInt(displayConfig.checkInMinutes);
+        if (displayConfig.pastMeetingLimit) displayConfig.pastMeetingLimit = parseInt(displayConfig.pastMeetingLimit);
 
-        displayConfig.private = coerceBoolean(displayConfig.private);
-        displayConfig.allowEndEarly = coerceBoolean(displayConfig.allowEndEarly);
-        displayConfig.customReserve = coerceBoolean(displayConfig.customReserve);
-        displayConfig.forceCheckIn = coerceBoolean(displayConfig.forceCheckIn);
-        displayConfig.instant = coerceBoolean(displayConfig.instant);
-        displayConfig.intdates = coerceBoolean(displayConfig.intdates);
-        displayConfig.twentyfour = coerceBoolean(displayConfig.twentyfour);
-        displayConfig.roomfinder = coerceBoolean(displayConfig.roomfinder);
-        displayConfig.isOnline = coerceBoolean(displayConfig.isOnline);
-        displayConfig.hidden = coerceBoolean(displayConfig.hidden);
-        displayConfig.showdates = coerceBoolean(displayConfig.showdates);
-        displayConfig.allowExtendMeeting = coerceBoolean(displayConfig.allowExtendMeeting);
-        displayConfig.messageAdministrator = coerceBoolean(displayConfig.messageAdministrator);
+        if (displayConfig.fullBackground) displayConfig.fullBackground = coerceBoolean(displayConfig.fullBackground);
+        if (displayConfig.iosoverscroll) displayConfig.iosoverscroll = coerceBoolean(displayConfig.iosoverscroll);
+        if (displayConfig.iftttMotion) displayConfig.iftttMotion = coerceBoolean(displayConfig.iftttMotion);
+
+        if (displayConfig.private) displayConfig.private = coerceBoolean(displayConfig.private);
+        if (displayConfig.allowEndEarly) displayConfig.allowEndEarly = coerceBoolean(displayConfig.allowEndEarly);
+        if (displayConfig.customReserve) displayConfig.customReserve = coerceBoolean(displayConfig.customReserve);
+        if (displayConfig.forceCheckIn) displayConfig.forceCheckIn = coerceBoolean(displayConfig.forceCheckIn);
+        if (displayConfig.instant) displayConfig.instant = coerceBoolean(displayConfig.instant);
+        if (displayConfig.intdates) displayConfig.intdates = coerceBoolean(displayConfig.intdates);
+        if (displayConfig.twentyfour) displayConfig.twentyfour = coerceBoolean(displayConfig.twentyfour);
+        if (displayConfig.roomfinder) displayConfig.roomfinder = coerceBoolean(displayConfig.roomfinder);
+        if (displayConfig.isOnline) displayConfig.isOnline = coerceBoolean(displayConfig.isOnline);
+        if (displayConfig.hidden) displayConfig.hidden = coerceBoolean(displayConfig.hidden);
+        if (displayConfig.showdates) displayConfig.showdates = coerceBoolean(displayConfig.showdates);
+        if (displayConfig.allowExtendMeeting) displayConfig.allowExtendMeeting = coerceBoolean(displayConfig.allowExtendMeeting);
+        if (displayConfig.messageAdministrator) displayConfig.messageAdministrator = coerceBoolean(displayConfig.messageAdministrator);
 
 
     } catch(e){}

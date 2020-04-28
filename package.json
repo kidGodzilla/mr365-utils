@@ -1,6 +1,6 @@
 {
   "name": "mr365-utils",
-  "version": "0.2.14",
+  "version": "0.2.15",
   "description": "A collection of reusable backend components for Meeting Room 365",
   "main": "index.js",
   "scripts": {
