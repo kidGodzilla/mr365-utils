@@ -93,6 +93,21 @@ function coerceBoolean (ins) {
     return String(ins).toLowerCase() == 'true'; // Evaluates true / false / 'true' / 'false' / 'True' / 'False' / 'TRUE' / etc.
 }
 
+// Fix Object Value Types for a Flat object
+function fixObjectValueTypes (o) {
+    for (var k in o) {
+        var v = o[k];
+
+        if (v === 'undefined') o[k] = undefined;
+        if (v === 'false') o[k] = false;
+        if (v === 'null') o[k] = null;
+        if (v === 'true') o[k] = true;
+        if (v === 'NaN') o[k] = NaN;
+        if ((+v) == v) o[k] = (+v);
+    }
+    return o;
+}
+
 // Fix a Meeting Room 365 display configuration object (type coercion)
 function fixDisplayConfig (displayConfig) {
     try { // Fix any values we need before rendering
@@ -121,9 +136,10 @@ function fixDisplayConfig (displayConfig) {
         if (displayConfig.showdates) displayConfig.showdates = coerceBoolean(displayConfig.showdates);
         if (displayConfig.allowExtendMeeting) displayConfig.allowExtendMeeting = coerceBoolean(displayConfig.allowExtendMeeting);
         if (displayConfig.messageAdministrator) displayConfig.messageAdministrator = coerceBoolean(displayConfig.messageAdministrator);
-
-
     } catch(e){}
+
+    // Try fixing all of the types no matter what the keys are
+    try { displayConfig = fixObjectValueTypes(displayConfig) } catch(e){}
 
     return displayConfig;
 }
@@ -246,25 +262,27 @@ function newConfigObject (emailAddr, tenantDomain, overrides) {
 
     if (!tenantDomain && emailAddr.includes('@')) tenantDomain = emailAddr.split('@')[1];
 
+    let tg = trigraph();
+
     let displayConfig = {
         styles: '/* Paste your CSS styles here to override existing styles. */\n\n/* Use your browser\'s Inspector to understand & test overrides for current styles. */',
         image: 'https://meetingroom365.com/display/images/bg.jpg',
         tenant_lc: lowercase(tenantDomain),
         created: (new Date()).toString(),
         email_lc: lowercase(emailAddr),
-        originalKey: trigraph(),
-        customReserve: false,
+        //customReserve: false,
         tenant: tenantDomain,
         name: 'Meeting Room',
+        //twentyfour: false,
         email: emailAddr,
         status: 'Active',
-        hoursForward: 8,
-        implicit: true,
+        originalKey: tg,
+        //intdates: false,
+        //hoursForward: 8,
         instant: true,
-        twentyfour: 0,
         minutes: 15,
-        intdates: 0,
-        i18n: null
+        key: tg,
+        //i18n: null
     };
 
     if (overrides) Object.assign(displayConfig, overrides);
@@ -383,6 +401,7 @@ module.exports = {
     dateToMsISOString: dateToMsISOString,
     corsAndBodyParser: corsAndBodyParser,
     adjustedTimeFromNow: adjustedTimeFromNow,
+    fixObjectValueTypes: fixObjectValueTypes,
     generateFakeMeetingItem: generateFakeMeetingItem,
     generateDummyMeetingData: generateDummyMeetingData
 };
