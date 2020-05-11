@@ -103,7 +103,8 @@ function fixObjectValueTypes (o) {
         if (v === 'null') o[k] = null;
         if (v === 'true') o[k] = true;
         if (v === 'NaN') o[k] = NaN;
-        if ((+v) == v) o[k] = (+v);
+
+        if ((+v) == v && v !== '') o[k] = (+v);
     }
     return o;
 }
