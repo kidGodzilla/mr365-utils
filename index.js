@@ -83,14 +83,14 @@ function corsAndBodyParser (app) {
 // Coerce a boolean or string version of a boolean to a boolean
 function coerceBoolean (ins) {
     if (typeof ins === 'boolean') return ins; // Just pass it back if it's already a BOOLEAN
-    if (String(ins) == 1) return true; // 1 -> true
-    if (String(ins) == 0) return false; // 0 // -> false
+    if (String(ins) == 1) return true; // 1 -> true (USE DOUBLE EQUALS)
+    if (String(ins) == 0) return false; // 0 // -> false (USE DOUBLE EQUALS)
     if (typeof ins === 'number' && String(ins) === 'NaN') return false; // NaN -> false
     if (typeof ins === 'number') return true; // Would have already returned if zero
 
     if (typeof ins === 'string' && ins.toLowerCase() !== 'false') return true; // Evaluates all strings not like 'false' to true
 
-    return String(ins).toLowerCase() == 'true'; // Evaluates true / false / 'true' / 'false' / 'True' / 'False' / 'TRUE' / etc.
+    return String(ins).toLowerCase() == 'true'; // (USE DOUBLE EQUALS) Evaluates true / false / 'true' / 'false' / 'True' / 'False' / 'TRUE' / etc.
 }
 
 // Fix Object Value Types for a Flat object
@@ -249,12 +249,7 @@ function isFreeMail (selector) {
 
     if (!selector.includes('@')) selector = 'foo@' + selector;
 
-    if (freemail.isFree(selector) || freemail.isDisposable(selector)) {
-        //console.log('Disposable email used', selector);
-        return true;
-    }
-
-    return false;
+    return !!(freemail.isFree(selector) || freemail.isDisposable(selector));
 }
 
 // Generate a new Meeting Room 365 display configuration object
