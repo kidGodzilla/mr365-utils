@@ -356,6 +356,22 @@ function allowAllOrigins (req, res, next) {
     next();
 }
 
+// Middleware: Only send responses if no headers have already been sent
+function safeResponseMiddleware (req, res, next) {
+    var temp = res.send;
+    res.send = function() {
+        if (!res.headersSent) temp.apply(this, arguments);
+        else if (req.debug) console.log('Response headers already sent');
+    }
+
+    var temp2 = res.json;
+    res.json = function() {
+        if (!res.headersSent) temp2.apply(this, arguments);
+        else if (req.debug) console.log('Response headers already sent');
+    }
+    return next();
+}
+
 /**
  * Transforms a string into a valid firebase key by stripping a subset of special characters, and replacing
  * with underscores
@@ -403,6 +419,7 @@ module.exports = {
     corsAndBodyParser: corsAndBodyParser,
     adjustedTimeFromNow: adjustedTimeFromNow,
     fixObjectValueTypes: fixObjectValueTypes,
+    safeResponseMiddleware: safeResponseMiddleware,
     generateFakeMeetingItem: generateFakeMeetingItem,
     generateDummyMeetingData: generateDummyMeetingData
 };
