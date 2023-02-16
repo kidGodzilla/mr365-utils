@@ -367,6 +367,28 @@ function safeResponseMiddleware (req, res, next) {
     return next();
 }
 
+
+// Express middleware to verify a route authorization by a known key stored in Firebase
+// Example usage: verifyAuthorizationKeyMiddleware(global.array_of_valid_auth_keys)
+function verifyAuthorizationKeyMiddleware (keys) {
+    function verifyAuthKey (auth, cb) {
+        if (!auth) return cb(false);
+
+        if (keys.includes(auth)) return cb(true);
+
+        return cb(false);
+    }
+
+    return function (req, res, next) {
+        if (!req.query.auth) return res.send('unauthorized');
+
+        verifyAuthKey(req.query.auth, function (authorized) {
+            if (authorized) next();
+            else res.status(401).send('unauthorized');
+        });
+    }
+}
+
 /**
  * Transforms a string into a valid firebase key by stripping a subset of special characters, and replacing
  * with underscores
