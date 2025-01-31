@@ -1,6 +1,6 @@
 {
   "name": "mr365-utils",
-  "version": "0.2.19",
+  "version": "0.2.20",
   "description": "A collection of reusable backend components for Meeting Room 365",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,7 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "free-email-domains": "^1.2.16",
     "freemail": "^1.5.0"
-  },
-  "devDependencies": {}
+  }
 }

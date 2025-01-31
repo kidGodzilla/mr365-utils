@@ -246,10 +246,12 @@ function trigraph () {
 // Determine if an email address or domain is free or disposible
 function isFreeMail (selector) {
     const freemail = require('freemail');
+    const freeEmailDomains = require('free-email-domains');
 
     if (!selector.includes('@')) selector = 'foo@' + selector;
+    const domain = ((selector || '').split('@')[1] || '').toLowerCase();
 
-    return !!(freemail.isFree(selector) || freemail.isDisposable(selector));
+    return !!(freemail.isFree(selector) || freemail.isDisposable(selector) || freeEmailDomains.includes(domain));
 }
 
 // Generate a new Meeting Room 365 display configuration object
