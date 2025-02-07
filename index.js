@@ -246,7 +246,7 @@ function trigraph () {
 // Determine if an email address or domain is free or disposible
 function isFreeMail (selector) {
     const freemail = require('freemail');
-    const freeEmailDomains = require('free-email-domains');
+    const freeEmailDomains = require('./freeEmailDomains.json');
 
     if (!selector.includes('@')) selector = 'foo@' + selector;
     const domain = ((selector || '').split('@')[1] || '').toLowerCase();
