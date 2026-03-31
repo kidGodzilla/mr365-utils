@@ -49,37 +49,6 @@ function isStaging (request) {
     }
 }
 
-// Express.js Middleware: determine if the app is being run locally
-function expressIsLocal (req, res, next) {
-    req.isLocal = !!isLocal(req);
-    if (req.isLocal) debug = true;
-    next()
-}
-
-// Express.js Middleware: Add this to the default cors middleware to handle OPTIONS requests
-function corsOptions (req, res, next) {
-    if (req.method === 'OPTIONS') {
-        var headers = {};
-        headers["Access-Control-Allow-Origin"] = "*";
-        headers["Access-Control-Allow-Methods"] = "POST, GET, PUT, DELETE, OPTIONS";
-        headers["Access-Control-Allow-Credentials"] = true;
-        headers["Access-Control-Max-Age"] = '86400'; // 24 hours
-        headers["Access-Control-Allow-Headers"] = "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-HTTP-Method-Override";
-        res.writeHead(204, headers);
-        res.end();
-    } else {
-        next();
-    }
-}
-
-// Some defaults
-function corsAndBodyParser (app) {
-    app.use(corsOptions);
-    app.use(require('cors')());
-    app.use(require('body-parser').json({ limit: '5mb', extended: true }));
-    app.use(require('body-parser').urlencoded({ limit: '5mb', extended: true }));
-}
-
 // Coerce a boolean or string version of a boolean to a boolean
 function coerceBoolean (ins) {
     if (typeof ins === 'boolean') return ins; // Just pass it back if it's already a BOOLEAN
@@ -218,11 +187,6 @@ function generateFakeMeetingItem (startTime) {
     };
 }
 
-// Determine if an object is a file Buffer
-function isBuffer (arg) {
-    return arg instanceof Buffer;
-}
-
 // Shuffle an array (Efficient Fisher-Yates shuffle)
 function shuffle (a) {
     var j, x, i;
@@ -303,22 +267,6 @@ function generateKey (keyLength) {
     return key;
 }
 
-// Translate a truncated timestamp (int) to a timestamp (int)
-function truncToTS (i) {
-    return i * (5 * 60 * 1000) + 1454212801000;
-}
-
-// Translate a timestamp (int) to a truncated timestamp (int)
-function tsToTrunc (i) {
-    return Math.floor((i - 1454212801000) / (5 * 60 * 1000));
-}
-
-// Generate a random int <= 9999999999
-function rint (max) {
-    if (!max) max = 9999999999;
-    return Math.floor(Math.random() * Math.floor(max));
-}
-
 // Middleware to tally path request counts on a global
 function prcsMiddleware (req, res, next) {
     var url = req.originalUrl ? req.originalUrl.split('?')[0] : '';
@@ -334,24 +282,6 @@ function prcsMiddleware (req, res, next) {
 // Middleware to return path request counts
 function pathRequestCounts (req, res) {
     res.json(global._prcs || {});
-}
-
-// Middleware to allow lots of origins
-function allowAllOrigins (req, res, next) {
-    var origin = req.headers.origin;
-
-    // Allow a whitelisted set of origins
-    // var allowedOrigins = ['http://127.0.0.1:8020', 'http://localhost:8020', 'http://127.0.0.1:9000', 'http://localhost:9000'];
-    // if(allowedOrigins.indexOf(origin) > -1){
-    //     res.setHeader('Access-Control-Allow-Origin', origin);
-    // }
-
-    // Allow all origins, basically
-    if (origin) res.setHeader('Access-Control-Allow-Origin', origin);
-
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.header('Access-Control-Allow-Credentials', true);
-    next();
 }
 
 // Middleware: Only send responses if no headers have already been sent
@@ -418,32 +348,24 @@ var cacheModule = require('./cache');
 
 // Exports
 module.exports = {
-    createCacheService: cacheModule.createCacheService,
     s4: s4,
     tp: tp,
-    rint: rint,
     isLocal: isLocal,
     shuffle: shuffle,
-    isBuffer: isBuffer,
     trigraph: trigraph,
     lowercase: lowercase,
-    tsToTrunc: tsToTrunc,
-    truncToTS: truncToTS,
     isFreeMail: isFreeMail,
-    corsOptions: corsOptions,
     generateKey: generateKey,
     urlSafeString: urlSafeString,
     coerceBoolean: coerceBoolean,
-    expressIsLocal: expressIsLocal,
-    allowAllOrigins: allowAllOrigins,
     firebaseSafeKey: firebaseSafeKey,
     newConfigObject: newConfigObject,
     fixDisplayConfig: fixDisplayConfig,
     dateToMsISOString: dateToMsISOString,
-    corsAndBodyParser: corsAndBodyParser,
     adjustedTimeFromNow: adjustedTimeFromNow,
     fixObjectValueTypes: fixObjectValueTypes,
     safeResponseMiddleware: safeResponseMiddleware,
     generateFakeMeetingItem: generateFakeMeetingItem,
-    generateDummyMeetingData: generateDummyMeetingData
+    createCacheService: cacheModule.createCacheService,
+    generateDummyMeetingData: generateDummyMeetingData,
 };
