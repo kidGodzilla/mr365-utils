@@ -413,8 +413,12 @@ function urlSafeString (str) {
 }
 
 
+// Cache service factory
+var cacheModule = require('./cache');
+
 // Exports
 module.exports = {
+    createCacheService: cacheModule.createCacheService,
     s4: s4,
     tp: tp,
     rint: rint,
