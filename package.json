@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kidGodzilla/mr365-utils.git"
+    "url": "git+https://github.com/Meeting-Room-365/mr365-utils.git"
   },
-  "author": "James Futhey <futhey@gmail.com> (http://jamesfuthey.com/)",
+  "author": "James Futhey (https://www.meetingroom365.com/)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kidGodzilla/mr365-utils/issues"
+    "url": "https://github.com/Meeting-Room-365/mr365-utils/issues"
   },
-  "homepage": "https://github.com/kidGodzilla/mr365-utils#readme",
+  "homepage": "https://github.com/Meeting-Room-365/mr365-utils#readme",
   "dependencies": {
     "freemail": "^1.5.0",
     "node-cache": "^5.1.2",
